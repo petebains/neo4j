@@ -1,0 +1,14 @@
+LOAD CSV WITH HEADERS 
+FROM 'https://raw.githubusercontent.com/petebains/neo4j/main/licence.csv' 
+AS line 
+WITH line 
+RETURN 
+    toInteger(line.licenceid) AS licenceId,toInteger(line.managementrightid) AS managementRightId,
+    toInteger(line.clientid) AS clientId, toString(line.licencetype) AS licenceType,
+    toInteger(line.licencetypeid) AS licenceTypeId, toString(line.licencecode) AS licenceCode,
+    toString(line.licencecategory) AS licenceCategory, toInteger(line.licencestatusid) AS licenceStatusId,
+    toInteger(line.officeid) AS officeId, toInteger(line.licencenumber) AS licenceNumber,
+    toInteger(line.commencementdate) AS commencementDate, toInteger(line.registrationdate) AS registrationDate,
+    toInteger(line.expiry_date) AS expiryDate, toInteger(line.sets) AS sets, line.callsign AS callSign,
+    toFloat(line.renewalfee) AS renewalFee, line.shipname AS shipName
+LIMIT 10
