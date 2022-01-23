@@ -21,16 +21,24 @@ FROM 'https://raw.githubusercontent.com/petebains/neo4j/main/licence.csv'
 AS line 
 WITH line 
 RETURN 
-    toInteger(line.licenceid) AS licenceId,toInteger(line.managementrightid) AS managementRightId,
-    toInteger(line.clientid) AS clientId, toString(line.licencetype) AS licenceType,
-    toInteger(line.licencetypeid) AS licenceTypeId, toString(line.licencecode) AS licenceCode,
-    toString(line.licencecategory) AS licenceCategory, toInteger(line.licencestatusid) AS licenceStatusId,
-    toInteger(line.officeid) AS officeId, toInteger(line.licencenumber) AS licenceNumber,
-    toInteger(line.commencementdate) AS commencementDate, toInteger(line.registrationdate) AS registrationDate,
-    toInteger(line.expiry_date) AS expiryDate, toInteger(line.sets) AS sets, line.callsign AS callSign,
-    toFloat(line.renewalfee) AS renewalFee, line.shipname AS shipName
+    toInteger(line.licenceid) AS licenceId,
+    toInteger(line.managementrightid) AS managementRightId,
+    toInteger(line.clientid) AS clientId, 
+    rTrim(toString(line.licencetype)) AS licenceType,
+    toInteger(line.licencetypeid) AS licenceTypeId, 
+    rTrim(toString(line.licencecode)) AS licenceCode,
+    rTrim(toString(line.licencecategory)) AS licenceCategory, 
+    toInteger(line.licencestatusid) AS licenceStatusId,
+    toInteger(line.officeid) AS officeId, 
+    toInteger(line.licencenumber) AS licenceNumber,
+    toInteger(line.commencementdate) AS commencementDate, 
+    toInteger(line.registrationdate) AS registrationDate,
+    toInteger(line.expiry_date) AS expiryDate, 
+    toInteger(line.sets) AS sets, 
+    rTrim(toString(line.callsign)) AS callSign,
+    toFloat(line.renewalfee) AS renewalFee, 
+    rTrim(toString(line.shipname)) AS shipName
 LIMIT 10
-
 
 
 //* Load CSV file to nodes on neo4j*//
@@ -43,10 +51,10 @@ MERGE (l:Licence {id: toInteger(row.licenceid)})
         l.licenceId = toInteger(row.licenceid),
         l.managementRightId = toInteger(row.managementrightid),
         l.clientId = toInteger(row.clientid), 
-        l.licenceType = toString(row.licencetype),
+        l.licenceType = rTrim(toString(row.licencetype)),
         l.licenceTypeId = toInteger(row.licencetypeid), 
-        l.licenceCode = toString(row.licencecode),
-        l.licenceCategory = toString(row.licencecategory), 
+        l.licenceCode = rTrim(toString(row.licencecode)),
+        l.licenceCategory = rTrim(toString(row.licencecategory)), 
         l.licenceStatusId = toInteger(row.licencestatusid),
         l.officeId = toInteger(row.officeid), 
         l.licenceNumber = toInteger(row.licencenumber),
@@ -54,9 +62,9 @@ MERGE (l:Licence {id: toInteger(row.licenceid)})
         l.registrationDate = toInteger(row.registrationdate),
         l.expiryDate = toInteger(row.expiry_date), 
         l.sets = toInteger(row.sets), 
-        l.callSign = row.callsign,
+        l.callSign = rTrim(toString(row.callsign)),
         l.renewalFee = toFloat(row.renewalfee), 
-        l.shipName = row.shipname
+        l.shipName = rTrim(toString(row.shipname))
 
 
 
