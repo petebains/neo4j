@@ -1,3 +1,10 @@
+CREATE CONSTRAINT UniqueLicenceIdConstraint ON (l:Licence) ASSERT l.licenceId IS UNIQUE;
+
+
+
+
+
+
 LOAD CSV WITH HEADERS 
 FROM 'https://raw.githubusercontent.com/petebains/neo4j/main/licence.csv' 
 AS line 
