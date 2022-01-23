@@ -34,7 +34,7 @@ LIMIT 10
 :auto USING PERIODIC COMMIT 500
 LOAD CSV WITH HEADERS FROM
   'https://raw.githubusercontent.com/petebains/neo4j/main/licence.csv' AS row
-MERGE (l:Licence {id: toInteger(row.licenceId)})
+MERGE (l:Licence {id: toInteger(row.licenceid)})
     ON CREATE SET
         l.licenceId = toInteger(row.licenceid),
         l.managementRightId = toInteger(row.managementrightid),
