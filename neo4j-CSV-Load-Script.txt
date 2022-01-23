@@ -1,9 +1,16 @@
+//* Place a constraint ont he uniqueId being unique *//
 CREATE CONSTRAINT UniqueLicenceIdConstraint ON (l:Licence) ASSERT l.licenceId IS UNIQUE;
 
 
 
+//* Count the number of records *//
+LOAD CSV WITH HEADERS
+FROM 'https://raw.githubusercontent.com/petebains/neo4j/main/licence.csv' 
+AS line
+RETURN count(line)
 
 
+//* Validate CSV File Data *//
 
 LOAD CSV WITH HEADERS 
 FROM 'https://raw.githubusercontent.com/petebains/neo4j/main/licence.csv' 
@@ -19,3 +26,30 @@ RETURN
     toInteger(line.expiry_date) AS expiryDate, toInteger(line.sets) AS sets, line.callsign AS callSign,
     toFloat(line.renewalfee) AS renewalFee, line.shipname AS shipName
 LIMIT 10
+
+
+
+//* Load CSV file to nodes on neo4j*//
+
+:auto USING PERIODIC COMMIT 500
+LOAD CSV WITH HEADERS FROM
+  'https://raw.githubusercontent.com/petebains/neo4j/main/licence.csv' AS row
+MERGE (l:Licence {id: toInteger(row.licenceId)})
+    ON CREATE SET
+        l.licenceId = toInteger(row.licenceid),
+        l.managementRightId = toInteger(row.managementrightid),
+        l.clientId = toInteger(row.clientid), 
+        l.licenceType = toString(row.licencetype),
+        l.licenceTypeId = toInteger(row.licencetypeid), 
+        l.licenceCode = toString(row.licencecode),
+        l.licenceCategory = toString(row.licencecategory), 
+        l.licenceStatusId = toInteger(row.licencestatusid),
+        l.officeId = toInteger(row.officeid), 
+        l.licenceNumber = toInteger(row.licencenumber),
+        l.commencementDate = toInteger(row.commencementdate), 
+        l.registrationDate = toInteger(row.registrationdate),
+        l.expiryDate = toInteger(row.expiry_date), 
+        l.sets = toInteger(row.sets), 
+        l.callSign = row.callsign,
+        l.renewalFee = toFloat(row.renewalfee), 
+        l.shipName = row.shipname
