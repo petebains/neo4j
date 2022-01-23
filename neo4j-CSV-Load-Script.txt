@@ -1,3 +1,7 @@
+
+LICENCE NODE
+============
+
 //* Place a constraint ont he uniqueId being unique *//
 CREATE CONSTRAINT UniqueLicenceIdConstraint ON (l:Licence) ASSERT l.licenceId IS UNIQUE;
 
@@ -53,3 +57,16 @@ MERGE (l:Licence {id: toInteger(row.licenceid)})
         l.callSign = row.callsign,
         l.renewalFee = toFloat(row.renewalfee), 
         l.shipName = row.shipname
+
+
+
+
+
+SPECTRUM NODE
+=============
+//* Count the number of records *//
+LOAD CSV WITH HEADERS
+FROM 'https://raw.githubusercontent.com/petebains/neo4j/main/spectrum.csv' 
+AS line
+RETURN count(line)
+
